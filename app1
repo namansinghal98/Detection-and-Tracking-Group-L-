@@ -1,0 +1,153 @@
+classdef app1 < matlab.apps.AppBase
+
+    % Properties that correspond to app components
+    properties (Access = public)
+        UIFigure             matlab.ui.Figure
+        UIAxes               matlab.ui.control.UIAxes
+        pfaEditFieldLabel    matlab.ui.control.Label
+        pfaEditField         matlab.ui.control.NumericEditField
+        pfaEditField_2Label  matlab.ui.control.Label
+        pfaEditField_2       matlab.ui.control.NumericEditField
+        snrEditFieldLabel    matlab.ui.control.Label
+        snrEditField         matlab.ui.control.NumericEditField
+        Button               matlab.ui.control.Button
+        Button2              matlab.ui.control.Button
+        pdEditFieldLabel     matlab.ui.control.Label
+        pdEditField          matlab.ui.control.EditField
+    end
+
+    methods (Access = private)
+
+        % Button pushed function: Button2
+        function Button2Pushed(app, event)
+            dbstop in uicomponents\+matlab\+ui\+control\+internal\+model\AbstractNumericComponent.m at 87
+            
+            pfaa=app.pfaEditField_2.Value;
+            snr=app.snrEditField.Value;
+            
+              answer=pfdans(pfaa,snr);
+           
+            app.pdEditField.Value = num2str(answer)   ;
+        end
+
+        % Button pushed function: Button
+        function ButtonPushed(app, event)
+            pfa=app.pfaEditField.Value
+            threshold = sqrt(-2*(log(pfa))) ;
+            		
+            		snr = 0:0.1:18 ;
+            		lrl = length(snr);
+            		
+            		
+            		
+          for j = 1 : lrl
+            		% In the function1, the SNR is defined as a voltage ratio
+            		% Here SNR is a power ratio. To convert form decibels to voltage ration and take square root at the same time.
+            		temp = 10.^((snr(j)+3) / 20);
+            		F = @(v) v .* exp(-(v.^2 + temp.^2)/2) .* besseli(0, temp.*v);
+                  
+            			
+                 pd(j) = 1 - quad(F, 0, threshold, [1e-1 1.e-3]);
+           end
+            		
+            		pd=pd.*100;
+            
+            plot(app.UIAxes,snr,pd)
+            
+        end
+    end
+
+    % App initialization and construction
+    methods (Access = private)
+
+        % Create UIFigure and components
+        function createComponents(app)
+
+            % Create UIFigure
+            app.UIFigure = uifigure;
+            app.UIFigure.Position = [100 100 640 480];
+            app.UIFigure.Name = 'UI Figure';
+
+            % Create UIAxes
+            app.UIAxes = uiaxes(app.UIFigure);
+            xlabel(app.UIAxes, 'snr')
+            ylabel(app.UIAxes, 'pd')
+            app.UIAxes.Position = [267 236 300 185];
+
+            % Create pfaEditFieldLabel
+            app.pfaEditFieldLabel = uilabel(app.UIFigure);
+            app.pfaEditFieldLabel.HorizontalAlignment = 'center';
+            app.pfaEditFieldLabel.Position = [72 351 25 15];
+            app.pfaEditFieldLabel.Text = 'pfa';
+
+            % Create pfaEditField
+            app.pfaEditField = uieditfield(app.UIFigure, 'numeric');
+            app.pfaEditField.Position = [112 347 100 22];
+
+            % Create pfaEditField_2Label
+            app.pfaEditField_2Label = uilabel(app.UIFigure);
+            app.pfaEditField_2Label.HorizontalAlignment = 'right';
+            app.pfaEditField_2Label.Position = [79 143 25 15];
+            app.pfaEditField_2Label.Text = 'pfa';
+
+            % Create pfaEditField_2
+            app.pfaEditField_2 = uieditfield(app.UIFigure, 'numeric');
+            app.pfaEditField_2.Position = [119 139 100 22];
+
+            % Create snrEditFieldLabel
+            app.snrEditFieldLabel = uilabel(app.UIFigure);
+            app.snrEditFieldLabel.HorizontalAlignment = 'right';
+            app.snrEditFieldLabel.Position = [79 87 25 15];
+            app.snrEditFieldLabel.Text = 'snr';
+
+            % Create snrEditField
+            app.snrEditField = uieditfield(app.UIFigure, 'numeric');
+            app.snrEditField.Position = [119 83 100 22];
+
+            % Create Button
+            app.Button = uibutton(app.UIFigure, 'push');
+            app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
+            app.Button.Position = [112 304 100 22];
+
+            % Create Button2
+            app.Button2 = uibutton(app.UIFigure, 'push');
+            app.Button2.ButtonPushedFcn = createCallbackFcn(app, @Button2Pushed, true);
+            app.Button2.Position = [119 29 100 22];
+            app.Button2.Text = 'Button2';
+
+            % Create pdEditFieldLabel
+            app.pdEditFieldLabel = uilabel(app.UIFigure);
+            app.pdEditFieldLabel.HorizontalAlignment = 'right';
+            app.pdEditFieldLabel.Position = [401 91 25 15];
+            app.pdEditFieldLabel.Text = 'pd';
+
+            % Create pdEditField
+            app.pdEditField = uieditfield(app.UIFigure, 'text');
+            app.pdEditField.Position = [441 87 100 22];
+        end
+    end
+
+    methods (Access = public)
+
+        % Construct app
+        function app = app1
+
+            % Create and configure components
+            createComponents(app)
+
+            % Register the app with App Designer
+            registerApp(app, app.UIFigure)
+
+            if nargout == 0
+                clear app
+            end
+        end
+
+        % Code that executes before app deletion
+        function delete(app)
+
+            % Delete UIFigure when app is deleted
+            delete(app.UIFigure)
+        end
+    end
+end
