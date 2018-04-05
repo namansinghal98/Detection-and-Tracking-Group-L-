@@ -25,7 +25,7 @@ bound = round((img_edge-1)/2);
 
 for j = 0:+1:(dist/vel)%image generation loop
     Z = 10.*exp(-1/2*(((X-start_pt(1)-j.*dist_x).^2/(a_x^2))+((Y-start_pt(2)-j.*dist_y).^2/(a_y^2))));
-    Z = imnoise(mat2gray(Z,[0 10]),'gaussian');
+    %Z = imnoise(mat2gray(Z,[0 10]),'gaussian');
     %sz = size(Z);
     %Z = [Z 10.*ones(sz(1),1)];
     imwrite(Z, strcat('test_',int2str(j),'.png'));
