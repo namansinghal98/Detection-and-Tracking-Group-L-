@@ -28,6 +28,6 @@ for j = 0:+1:(dist/vel)%image generation loop
     %Z = imnoise(mat2gray(Z,[0 10]),'gaussian');
     %sz = size(Z);
     %Z = [Z 10.*ones(sz(1),1)];
-    imwrite(Z, strcat('test_',int2str(j),'.png'));
+    imwrite(mat2gray(Z,[0 10]), strcat('test_',int2str(j),'.png'));
 end
 n = floor(dist/vel)+1;
