@@ -7,6 +7,18 @@ function n = img_gen(start_pt, end_pt, a_x, a_y, vel, img_edge)
 %The start_pt and end_pt must be matrices of size 1x2.........(1)
 %The edge length of the image must be such that i could accomodate the
 %traversal of the image
+global time;
+global v;
+global x_e;
+global x_s;
+global y_e;
+global y_s;
+global dist;
+x_s=start_pt(1,1);
+y_s=start_pt(1,2);
+x_e=end_pt(1,1);
+y_e=end_pt(1,2);
+v=vel;
 if numel(start_pt)~=2 %check for condition(1)
     error('start_pt should be of the format [x,y]')
 end
@@ -16,6 +28,7 @@ end
 
 A = [start_pt;end_pt];
 dist = pdist(A,'euclidean'); %euclidean distance between the atart and end points
+time = dist/vel;
 dist_x = vel.*((end_pt(1)-start_pt(1))./dist);%distance covered by the target in x-direction in one sampling period
 %disp(dist);
 %disp(dist_x);
