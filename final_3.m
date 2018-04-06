@@ -1,14 +1,28 @@
 %tracking centroid of images using data available and tracking data of
 %previous images
 
+%declarin the global variables
+global time;
+global x_e;
+global x_s;
+global y_e;
+global y_s;
+global dist;
+global v;
+
+%calculating the sampling time period
+tl=time/(n-1);
+
+
 %generation of data
-gaus_1
+n=img_gen([0,0],[10,10],5,6,1,201);
 %centroid calculation
 i1=imread('test_0.png');
 i2=imread('test_1.png') ;   
-f=pla(i1);
-s=pla(i2);
-tl=time;
+f=centroid_final(i1);
+s=centroid_final(i2);
+
+
 
 t=[1,tl,0;0,1,0;1,0,0];
 
@@ -48,8 +62,8 @@ centrex;
 centrey;
 
 %storing the predicted centroids in an array
-k=pla(imread('test_0.png'));
-l=pla(imread('test_1.png'));
+k=centroid_final(imread('test_0.png'));
+l=centroid_final(imread('test_1.png'));
 a(1,1)=k(1,1);
 a(1,2)=l(1,1);
 b(1,1)=-k(1,2);
@@ -63,16 +77,42 @@ b;
 %calculates actual centroid of all the frames 
 for i=0:(n-1)
     k=imread(strcat('test_',int2str(i),'.png'));
-    c=pla(k);
+    c=centroid_final(k);
     r(1,i+1)=c(1,1);
     h(1,i+1)=-c(1,2);
 end
 r;
 h;
-%plotting the predicted centroid data
-plot(a,b,'o')
-hold
-%plotting the actual centroid data
-plot(r,h,'*')
 
+%actual data
+for p=1:n
+    e(1,p)=(p-1)*v1;
+    f(1,p)=(p-1)*v2;
+end
+
+%plotting the results
+figure;
+plot(a,'or') %predicted
+hold on
+plot(r,'*b') %using centroid function
+plot(e,'-y') %actual coordinates
+hold off
+ylabel('x-position')
+xlabel('time')
+title('x-position')
+legend('predicted by tracking system','position by centroid function','actual position')
+
+
+%y-coordinate
+figure;
+plot(b,'or') %predicted
+hold on
+plot(h,'*b') %using centroid function
+plot(f,'-y') %actual coordinates
+hold off
+ylabel('y-position')
+xlabel('time')
+title('y-position')
+legend('predicted by tracking system','position by centroid function','actual position')
+%noise add
 
