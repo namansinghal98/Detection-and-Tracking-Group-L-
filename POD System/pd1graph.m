@@ -1,6 +1,4 @@
 % FILE: pd1graph.m
-% Use this function to give graph probability of detection vs signal to noise ratio
-
 function [snr, pd] = pd1graph(pfa)
 
 
@@ -17,7 +15,7 @@ function [snr, pd] = pd1graph(pfa)
 		for j = 1 : lrl
 		% In the function1, the SNR is defined as a voltage ratio
 		% Here SNR is a power ratio. To convert form decibels to voltage ration and take square root at the same time.
-		temp = 10.^((snr(j)+3) / 20);
+		temp = sqrt(2) * 10.^((snr(j)) / 20);
 		
 		
 		pd(j) = 1 - quad('function1', 0, threshold);

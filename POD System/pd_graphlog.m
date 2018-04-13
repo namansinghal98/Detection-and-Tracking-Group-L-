@@ -1,7 +1,7 @@
 % FILE: pd1graph.m
 % Use this function to give graph probability of detection vs signal to noise ratio
 
-function pd2graphlog()
+function pd_graphlog()
 
 pfa = [1e-1 , 1e-2, 1e-3, 1e-4,1e-5,1e-6,1e-8,1e-10,1e-12,1e-14,1e-16,1e-20];
 
