@@ -13,15 +13,15 @@ global v;
 
 
 %generation of data
-n=img_make([0,0],[10,10],9,10,1,201);
+n=img_gen([0,0],[10,10],9,10,1,201);
 %calculating the sampling time period
 tl=time/(n-1);
 
 %centroid calculation
 i1=imread('test_0.png');
 i2=imread('test_1.png') ;   
-f=centroid(i1);
-s=centroid(i2);
+f=centroid_final(i1);
+s=centroid_final(i2);
 
 
 
@@ -63,8 +63,8 @@ centrex;
 centrey;
 
 %storing the predicted centroids in an array
-k=centroid(imread('test_0.png'));
-l=centroid(imread('test_1.png'));
+k=centroid_final(imread('test_0.png'));
+l=centroid_final(imread('test_1.png'));
 a(1,1)=k(1,1);
 a(1,2)=l(1,1);
 b(1,1)=-k(1,2);
@@ -78,7 +78,7 @@ b;
 %calculates actual centroid of all the frames 
 for i=0:(n-1)
     k=imread(strcat('test_',int2str(i),'.png'));
-    c=centroid(k);
+    c=centroid_final(k);
     r(1,i+1)=c(1,1);
     h(1,i+1)=-c(1,2);
 end
@@ -91,7 +91,7 @@ for p=1:n
     f(1,p)=(p-1)*v2;
 end
 
-%plotting the results x vs time
+%plotting the results
 figure;
 plot(a,'or') %predicted
 hold on
@@ -116,7 +116,7 @@ xlabel('time')
 title('y-position')
 legend('predicted by tracking system','position by centroid function','actual position')
 
-%plotting the results x vs y
+%plotting the results
 figure;
 plot(b,a,'or') %predicted
 hold on
