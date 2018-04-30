@@ -10,12 +10,13 @@ global y_s;
 global dist;
 global v;
 
-%calculating the sampling time period
-tl=time/(n-1);
 
 
 %generation of data
-n=img_gen([0,0],[10,10],5,6,1,201);
+n=img_make([0,0],[10,10],9,10,1,201);
+%calculating the sampling time period
+tl=time/(n-1);
+
 %centroid calculation
 i1=imread('test_0.png');
 i2=imread('test_1.png') ;   
@@ -90,7 +91,7 @@ for p=1:n
     f(1,p)=(p-1)*v2;
 end
 
-%plotting the results
+%plotting the results x vs time
 figure;
 plot(a,'or') %predicted
 hold on
@@ -114,5 +115,15 @@ ylabel('y-position')
 xlabel('time')
 title('y-position')
 legend('predicted by tracking system','position by centroid function','actual position')
-%noise add
 
+%plotting the results x vs y
+figure;
+plot(b,a,'or') %predicted
+hold on
+plot(h,r,'*b') %using centroid function
+plot(f,e,'-y') %actual coordinates
+hold off
+ylabel('y-position')
+xlabel('x-position')
+title('x-y')
+legend('predicted by tracking system','position by centroid function','actual position')
