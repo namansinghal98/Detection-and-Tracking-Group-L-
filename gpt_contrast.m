@@ -1,4 +1,4 @@
-function K = gpt_contrast_final( Intensity_location )
+function K = gpt_contrast( Intensity_location )
 %GPT_CONTRAST 
 %   This function calculates the contrast of the gaussian plume target.
 %   It takes the intensities of pixels of the frame containing the target
@@ -7,7 +7,7 @@ function K = gpt_contrast_final( Intensity_location )
 global aE;
 global aN;
 % Semiaxes aE, aN (footprint, assumed for simplicity
-% oriented along the sensor’s coordinates).
+% oriented along the sensorâ€™s coordinates).
 global Sm;    % Sm = maximum intensity of the target
 
 [m1, m2] = size(Intensity_location);
