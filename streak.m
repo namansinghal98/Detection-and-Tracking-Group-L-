@@ -38,4 +38,5 @@ thresh = 0.01;
 figure
 imshow(BW)
 title('Segmented Image');
-imwrite(mat2gray(k,[0 Sm]),'streak.png');
+imwrite(mat2gray(k,[0 Sm]),'streak_with_noise.png');
+imwrite(BW,'streak.png');
