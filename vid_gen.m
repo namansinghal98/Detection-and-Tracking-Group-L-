@@ -8,7 +8,7 @@ fileNames = natsort(fileNames);% Natural sorting of the filenames
 outputVideo = VideoWriter(fullfile(file_path, 'target.avi'));
 outputVideo.FrameRate = 25;% Frame rate of the video
 open(outputVideo);
-for i = 1:length(fileNames)% Combinig the images
+for i = 1:length(fileNames)% Combining the images
    img = imread(fullfile(file_path,strcat('test_',int2str(i-1),'.png')));
    writeVideo(outputVideo,img)
 end
